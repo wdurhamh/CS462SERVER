@@ -2,4 +2,40 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  h2= name
+  h3 AMI id
+  p wdh_esc_node
+
+  h3 Cloud-init Script
+  <pre>
+  | #cloud-config 
+  | repo_update: true
+  | repo_upgrade: all
+  | packages:
+  |  - git
+  |  - gcc-c++
+  |  - make
+  |  - openssl-devel
+  | 
+  | runcmd:
+  |  - cd /home/ec2-user
+  |  - mkdir gitrepos
+  |  - cd gitrepos
+  |  - git clone git://github.com/joyent/node.git
+  |  - cd node
+  |  - git checkout v0.12.2
+  |  - ./configure
+  |  - make
+  |  - sudo make install
+  |  - cd /home/ec2-user/gitrepos
+  |  - git clone https://github.com/wdurhamh/CS462SERVER.git
+  |  - cd CS462SERVER
+  |  - sudo python install_helper.py
+  |  - cd /home/ec2-user/gitrepos/
+  |  - git clone https://github.com/isaacs/npm.git
+  |  - cd npm
+  |  - sudo make install
+  |  - sudo npm install ex|ss -g
+  |  - cd /home/ec2-user/gitrepos/CS462SERVER
+  |  - nohup sudo npm start &
+  </pre>

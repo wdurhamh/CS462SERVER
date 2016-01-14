@@ -4,7 +4,7 @@ orig = open('/etc/sudoers', 'r')
 edited = ''
 for line in orig:
     if 'secure_path =' in line:
-	line += ':/usr/local/bin'
+	line = line.replace('\n', ':/usr/local/bin\n')
     edited += line
 orig.close()
 

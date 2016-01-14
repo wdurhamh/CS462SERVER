@@ -7,6 +7,44 @@
 <body>
 	<h1>CS462</h1>
 	<h3>Winston Hurst</h3>
+
+	<h4>AMI</h4>
+	<p>
+
+	<h4>Cloud-init Script</h4>
+	<pre>
+#cloud-config
+repo_update: true
+repo_upgrade: all
+
+packages:
+ - git
+ - gcc-c++
+ - make
+ - openssl-devel
+
+runcmd:
+ - cd /home/ec2-user
+ - mkdir gitrepos
+ - cd gitrepos
+ - git clone git://github.com/joyent/node.git
+ - cd node
+ - git checkout v0.12.2
+ - ./configure
+ - make
+ - sudo make install
+ - cd /home/ec2-user/gitrepos
+ - git clone https://github.com/wdurhamh/CS462SERVER.git
+ - cd CS462SERVER
+ - sudo python install_helper.py
+ - cd /home/ec2-user/gitrepos/
+ - git clone https://github.com/isaacs/npm.git
+ - cd npm
+ - sudo make install
+ - sudo npm install express -g
+ - cd /home/ec2-user/gitrepos/CS462SERVER
+ - nohup npm start &
+	</pre>
 </body>
 
 </html>
